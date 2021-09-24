@@ -1,0 +1,49 @@
+name: "CommandBox Semantic Release"
+description: "Issue a new package release using CommandBox Semantic Release"
+inputs:
+  githubToken:
+    description: "Access token for publishing a release to GitHub."
+    required: true
+  forgeboxToken:
+    description: "Access token for publishing a release to Forgebox."
+    required: true
+  excludeCommit:
+    description: "Don't run on commits with this commit message."
+    required: true
+  branch:
+    description: "Branch on which to target a release. Probably 'master' or 'main'."
+    required: false
+    default: "master"
+  dryRun:
+    description: "Do a dry run?"
+    required: false
+    default: "false"
+  force:
+    description: "Force a new release"
+    required: false
+    default: "false"
+  verbose:
+    description: "Show verbose output and verbose errors"
+    required: false
+    default: "false"
+  plugins:
+    description: "JSON object of semantic-release plugins to use for this release execution."
+    required: false
+    default: '{ "VerifyConditions": "GitHubActionsConditionsVerifier@commandbox-semantic-release", "FetchLastRelease": "ForgeBoxReleaseFetcher@commandbox-semantic-release", "RetrieveCommits": "JGitCommitsRetriever@commandbox-semantic-release", "ParseCommit": "ConventionalChangelogParser@commandbox-semantic-release", "FilterCommits": "DefaultCommitFilterer@commandbox-semantic-release", "AnalyzeCommits": "DefaultCommitAnalyzer@commandbox-semantic-release", "VerifyRelease": "NullReleaseVerifier@commandbox-semantic-release", "GenerateNotes": "GitHubMarkdownNotesGenerator@commandbox-semantic-release", "UpdateChangelog": "FileAppendChangelogUpdater@commandbox-semantic-release", "CommitArtifacts": "GitHubArtifactsCommitter@commandbox-semantic-release", "PublishRelease": "ForgeBoxReleasePublisher@commandbox-semantic-release", "PublicizeRelease": "GitHubReleasePublicizer@commandbox-semantic-release" }'
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.dryRun }}
+    - ${{ inputs.force }}
+    - ${{ inputs.verbose }}
+    - ${{ inputs.branch }}
+    - ${{ inputs.plugins }}
+  env:
+    FORGEBOX_TOKEN: ${{ inputs.forgeboxToken }}
+    GA_COMMIT_MESSAGE: ${{ inputs.excludeCommit }}
+    GH_TOKEN: ${{ inputs.githubToken }}
+
+branding:
+  icon: 'award'
+  color: 'blue'
