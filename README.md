@@ -14,7 +14,7 @@ Automate your package version and releases using [Semantic Release for CommandBo
 ```yml
 - uses: actions/checkout@v2
 - name: Run Semantic Release
-  uses: Ortus-Solutions/semantic-release-action@v1
+  uses: Ortus-Solutions/semantic-release-action@v1.1
   with:
     githubToken: ${{ secrets.GH_TOKEN }}
     forgeboxToken: ${{ secrets.FORGEBOX_TOKEN }}
@@ -63,14 +63,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: Ortus-Solutions/semantic-release-action@v1
+      - uses: Ortus-Solutions/semantic-release-action@v1.1
         with:
           githubToken: ${{ secrets.GH_TOKEN }}
           forgeboxToken: ${{ secrets.FORGEBOX_TOKEN }}
           excludeCommit: ${{ github.event.head_commit.message }}
           branch: main
-          plugins: '{ "VerifyConditions": "GitHubActionsConditionsVerifier@commandbox-semantic-release", "FetchLastRelease": "ForgeBoxReleaseFetcher@commandbox-semantic-release", "RetrieveCommits": "JGitCommitsRetriever@commandbox-semantic-release", "ParseCommit": "EmojiLogCommitParser@commandbox-semantic-release", "FilterCommits": "DefaultCommitFilterer@commandbox-semantic-release", "AnalyzeCommits": "DefaultCommitAnalyzer@commandbox-semantic-release", "VerifyRelease": "NullReleaseVerifier@commandbox-semantic-release", "GenerateNotes": "GitHubMarkdownNotesGenerator@commandbox-semantic-release", "UpdateChangelog": "FileAppendChangelogUpdater@commandbox-semantic-release", "CommitArtifacts": "GitHubArtifactsCommitter@commandbox-semantic-release", "PublishRelease": "ForgeBoxReleasePublisher@commandbox-semantic-release", "PublicizeRelease": "GitHubReleasePublicizer@commandbox-semantic-release" }'
+          plugins: '{ "VerifyConditions": "GitHubActionsConditionsVerifier@commandbox-semantic-release", "FetchLastRelease": "ForgeBoxReleaseFetcher@commandbox-semantic-release", "RetrieveCommits": "JGitCommitsRetriever@commandbox-semantic-release", "ParseCommit": "EmojiLogCommitParser@commandbox-semantic-release", "FilterCommits": "DefaultCommitFilterer@commandbox-semantic-release", "AnalyzeCommits": "EmojiLogCommitAnalyzer@commandbox-semantic-release", "VerifyRelease": "NullReleaseVerifier@commandbox-semantic-release", "GenerateNotes": "GitHubMarkdownNotesGenerator@commandbox-semantic-release", "UpdateChangelog": "FileAppendChangelogUpdater@commandbox-semantic-release", "CommitArtifacts": "GitHubArtifactsCommitter@commandbox-semantic-release", "PublishRelease": "ForgeBoxReleasePublisher@commandbox-semantic-release", "PublicizeRelease": "GitHubReleasePublicizer@commandbox-semantic-release" }'
 ```
+
+## Changelog
+
+### V1.1 12/01/2021
+
+- Includes `commandbox-semantic-release@2.5.0` to resolve version numbering when using the Emoji Log commit standard.
+### V1 - 09/23/2021
+
+- Initial release
 
 # License
 
